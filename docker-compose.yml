@@ -1,0 +1,14 @@
+services:
+  watchsync:
+    build: ./server
+    restart: unless-stopped
+    environment:
+      WATCHSYNC_TOKEN: "${WATCHSYNC_TOKEN:?Set WATCHSYNC_TOKEN in .env}"
+      WATCHSYNC_DB: /data/watchsync.db
+    ports:
+      - "8844:8844"
+    volumes:
+      - watchsync-data:/data
+
+volumes:
+  watchsync-data:

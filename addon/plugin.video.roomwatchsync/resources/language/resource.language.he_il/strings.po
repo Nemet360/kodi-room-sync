@@ -1,0 +1,56 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: he_IL\n"
+
+msgctxt "#30000"
+msgid "General"
+msgstr "כללי"
+
+msgctxt "#30001"
+msgid "Server URL"
+msgstr "כתובת השרת"
+
+msgctxt "#30002"
+msgid "API token"
+msgstr "אסימון API"
+
+msgctxt "#30003"
+msgid "Device identifier"
+msgstr "מזהה המכשיר"
+
+msgctxt "#30004"
+msgid "Upload interval (seconds)"
+msgstr "תדירות העלאה (שניות)"
+
+msgctxt "#30005"
+msgid "Resume rewind (seconds)"
+msgstr "חזרה לפני המשך (שניות)"
+
+msgctxt "#30006"
+msgid "Library sync interval (minutes)"
+msgstr "תדירות סנכרון הספרייה (דקות)"
+
+msgctxt "#30007"
+msgid "Show sync notifications"
+msgstr "הצגת הודעות סנכרון"
+
+msgctxt "#30100"
+msgid "Continue watching"
+msgstr "המשך צפייה"
+
+msgctxt "#30101"
+msgid "Progress synchronised"
+msgstr "ההתקדמות סונכרנה"
+
+msgctxt "#30102"
+msgid "Configure the server URL and API token first"
+msgstr "יש להגדיר תחילה כתובת שרת ואסימון API"
+
+msgctxt "#30103"
+msgid "Could not contact the sync server"
+msgstr "לא ניתן להתחבר לשרת הסנכרון"
+
+msgctxt "#30104"
+msgid "Not found in this Kodi library"
+msgstr "הפריט לא נמצא בספריית Kodi הזאת"

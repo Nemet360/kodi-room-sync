@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addons>
+    <addon id="plugin.video.roomwatchsync" name="Room Watch Sync" version="0.1.0" provider-name="Tzahi">
+        <requires>
+            <import addon="xbmc.python" version="3.0.0" />
+        </requires>
+        <extension point="xbmc.python.pluginsource" library="default.py">
+            <provides>video</provides>
+        </extension>
+        <extension point="xbmc.service" library="service.py" />
+        <extension point="xbmc.addon.metadata">
+            <summary lang="en_GB">Continue watching across Kodi devices</summary>
+            <summary lang="he_IL">המשך צפייה בין מכשירי Kodi</summary>
+            <description lang="en_GB">Synchronises movie and episode progress with a private Room Watch Sync server.</description>
+            <description lang="he_IL">מסנכרן התקדמות בסרטים ובפרקים מול שרת Room Watch Sync פרטי.</description>
+            <platform>all</platform>
+            <license>MIT</license>
+            <assets>
+                <icon>resources/icon.png</icon>
+            </assets>
+        </extension>
+    </addon>
+    <addon id="repository.roomwatchsync" name="Room Watch Sync Repository" version="1.0.0" provider-name="Nemet360">
+        <extension point="xbmc.addon.repository" name="Room Watch Sync Repository">
+            <dir>
+                <info compressed="false">https://raw.githubusercontent.com/Nemet360/kodi-room-sync/main/repository/addons.xml</info>
+                <checksum verify="sha256">https://raw.githubusercontent.com/Nemet360/kodi-room-sync/main/repository/addons.xml.sha256</checksum>
+                <datadir zip="true">https://raw.githubusercontent.com/Nemet360/kodi-room-sync/main/repository/</datadir>
+                <hashes>sha256</hashes>
+            </dir>
+        </extension>
+        <extension point="xbmc.addon.metadata">
+            <summary lang="en_GB">Install and update Room Watch Sync</summary>
+            <summary lang="he_IL">התקנה ועדכון של Room Watch Sync</summary>
+            <description lang="en_GB">Official repository for the Room Watch Sync Kodi add-on.</description>
+            <description lang="he_IL">המאגר הרשמי של תוסף Room Watch Sync עבור Kodi.</description>
+            <platform>all</platform>
+            <license>MIT</license>
+            <assets>
+                <icon>resources/icon.png</icon>
+            </assets>
+        </extension>
+    </addon>
+</addons>

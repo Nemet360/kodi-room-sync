@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.roomwatchsync"
+       name="Room Watch Sync"
+       version="0.1.0"
+       provider-name="Tzahi">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.service" library="service.py"/>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Continue watching across Kodi devices</summary>
+    <summary lang="he_IL">המשך צפייה בין מכשירי Kodi</summary>
+    <description lang="en_GB">Synchronises movie and episode progress with a private Room Watch Sync server.</description>
+    <description lang="he_IL">מסנכרן התקדמות בסרטים ובפרקים מול שרת Room Watch Sync פרטי.</description>
+    <platform>all</platform>
+    <license>MIT</license>
+    <assets>
+      <icon>resources/icon.png</icon>
+    </assets>
+  </extension>
+</addon>
