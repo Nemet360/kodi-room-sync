@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addons>
-    <addon id="plugin.video.roomwatchsync" name="Room Watch Sync" version="0.1.0" provider-name="Tzahi">
+    <addon id="plugin.video.roomwatchsync" name="Room Watch Sync" version="0.2.0" provider-name="Tzahi">
         <requires>
             <import addon="xbmc.python" version="3.0.0" />
         </requires>
@@ -11,10 +11,14 @@
         <extension point="xbmc.addon.metadata">
             <summary lang="en_GB">Continue watching across Kodi devices</summary>
             <summary lang="he_IL">המשך צפייה בין מכשירי Kodi</summary>
-            <description lang="en_GB">Synchronises movie and episode progress with a private Room Watch Sync server.</description>
-            <description lang="he_IL">מסנכרן התקדמות בסרטים ובפרקים מול שרת Room Watch Sync פרטי.</description>
+            <description lang="en_GB">Keeps the resume point of your movies and episodes the same on every television in one house. No server, no account: one television creates a home and prints a pairing code, the others type it in. Titles never leave the house - only an opaque key, a position and a timestamp.</description>
+            <description lang="he_IL">שומר על אותה נקודת המשך לסרטים ולפרקים בכל הטלוויזיות בבית אחד. בלי שרת ובלי חשבון: טלוויזיה אחת יוצרת בית ומציגה קוד צימוד, והשאר מקלידות אותו. שמות התוכן לא יוצאים מהבית — רק מפתח אטום, מיקום וחתימת זמן.</description>
+            <disclaimer lang="en_GB">Provided as is, with no warranty and no liability. This add-on ships no media, no links, no scrapers and no search — it only copies the playback position of media you already have between your own devices. Using it to obtain, share or stream content you do not hold the rights to, or to circumvent any copy protection, is forbidden. Not affiliated with Team Kodi or the XBMC Foundation. Your pairing code is the only thing protecting your household's watch history — never post it publicly. Full text: https://nemet360.github.io/kodi-room-sync/disclaimer.html</disclaimer>
+            <disclaimer lang="he_IL">ניתן כמות שהוא, בלי אחריות ובלי חבות. לתוסף אין מדיה, אין קישורים, אין scrapers ואין חיפוש — הוא רק מעתיק את מיקום הנגינה של מדיה שכבר יש לך, בין המכשירים שלך. אסור להשתמש בו כדי להשיג, לשתף או להזרים תוכן שאין לך זכויות בו, או כדי לעקוף הגנת העתקה. אין זיקה ל-Team Kodi או לקרן XBMC. קוד הצימוד הוא הדבר היחיד שמגן על היסטוריית הצפייה של הבית — אל תפרסם אותו. הנוסח המלא: https://nemet360.github.io/kodi-room-sync/disclaimer.html</disclaimer>
             <platform>all</platform>
             <license>MIT</license>
+            <website>https://nemet360.github.io/kodi-room-sync/</website>
+            <source>https://github.com/Nemet360/kodi-room-sync</source>
             <assets>
                 <icon>resources/icon.png</icon>
             </assets>
@@ -23,9 +27,9 @@
     <addon id="repository.roomwatchsync" name="Room Watch Sync Repository" version="1.0.0" provider-name="Nemet360">
         <extension point="xbmc.addon.repository" name="Room Watch Sync Repository">
             <dir>
-                <info compressed="false">https://raw.githubusercontent.com/Nemet360/kodi-room-sync/main/repository/addons.xml</info>
-                <checksum verify="sha256">https://raw.githubusercontent.com/Nemet360/kodi-room-sync/main/repository/addons.xml.sha256</checksum>
-                <datadir zip="true">https://raw.githubusercontent.com/Nemet360/kodi-room-sync/main/repository/</datadir>
+                <info compressed="false">https://nemet360.github.io/kodi-room-sync/repository/addons.xml</info>
+                <checksum verify="sha256">https://nemet360.github.io/kodi-room-sync/repository/addons.xml.sha256</checksum>
+                <datadir zip="true">https://nemet360.github.io/kodi-room-sync/repository/</datadir>
                 <hashes>sha256</hashes>
             </dir>
         </extension>
@@ -34,8 +38,12 @@
             <summary lang="he_IL">התקנה ועדכון של Room Watch Sync</summary>
             <description lang="en_GB">Official repository for the Room Watch Sync Kodi add-on.</description>
             <description lang="he_IL">המאגר הרשמי של תוסף Room Watch Sync עבור Kodi.</description>
+            <disclaimer lang="en_GB">Provided as is, with no warranty and no liability. This repository hosts one add-on that synchronises playback positions between your own devices. It contains no media, no links, no scrapers and no search of any kind, and must not be used to obtain or share content you do not hold the rights to. Not affiliated with Team Kodi or the XBMC Foundation. Full text: https://nemet360.github.io/kodi-room-sync/disclaimer.html</disclaimer>
+            <disclaimer lang="he_IL">ניתן כמות שהוא, בלי אחריות ובלי חבות. המאגר מכיל תוסף אחד שמסנכרן מיקומי נגינה בין המכשירים שלך. אין בו מדיה, קישורים, scrapers או חיפוש מכל סוג, ואסור להשתמש בו כדי להשיג או לשתף תוכן שאין לך זכויות בו. אין זיקה ל-Team Kodi או לקרן XBMC. הנוסח המלא: https://nemet360.github.io/kodi-room-sync/disclaimer.html</disclaimer>
             <platform>all</platform>
             <license>MIT</license>
+            <website>https://nemet360.github.io/kodi-room-sync/</website>
+            <source>https://github.com/Nemet360/kodi-room-sync</source>
             <assets>
                 <icon>resources/icon.png</icon>
             </assets>

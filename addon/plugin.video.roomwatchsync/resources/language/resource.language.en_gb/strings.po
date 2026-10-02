@@ -4,53 +4,113 @@ msgstr ""
 "Language: en_GB\n"
 
 msgctxt "#30000"
-msgid "General"
-msgstr "General"
+msgid "Home"
+msgstr "Home"
 
 msgctxt "#30001"
-msgid "Server URL"
-msgstr "Server URL"
-
-msgctxt "#30002"
-msgid "API token"
-msgstr "API token"
+msgid "Pairing code"
+msgstr "Pairing code"
 
 msgctxt "#30003"
-msgid "Device identifier"
-msgstr "Device identifier"
-
-msgctxt "#30004"
-msgid "Upload interval (seconds)"
-msgstr "Upload interval (seconds)"
+msgid "Name of this television"
+msgstr "Name of this television"
 
 msgctxt "#30005"
-msgid "Resume rewind (seconds)"
-msgstr "Resume rewind (seconds)"
-
-msgctxt "#30006"
-msgid "Library sync interval (minutes)"
-msgstr "Library sync interval (minutes)"
+msgid "Rewind when resuming (seconds)"
+msgstr "Rewind when resuming (seconds)"
 
 msgctxt "#30007"
-msgid "Show sync notifications"
-msgstr "Show sync notifications"
+msgid "Show a notification when something syncs"
+msgstr "Show a notification when something syncs"
 
-msgctxt "#30100"
-msgid "Continue watching"
-msgstr "Continue watching"
+msgctxt "#30010"
+msgid "Advanced"
+msgstr "Advanced"
+
+msgctxt "#30011"
+msgid "Sync channel"
+msgstr "Sync channel"
+
+msgctxt "#30012"
+msgid "ntfy (no setup needed)"
+msgstr "ntfy (no setup needed)"
+
+msgctxt "#30013"
+msgid "Custom URL (durable)"
+msgstr "Custom URL (durable)"
+
+msgctxt "#30014"
+msgid "ntfy server"
+msgstr "ntfy server"
+
+msgctxt "#30015"
+msgid "Sync URL"
+msgstr "Sync URL"
+
+msgctxt "#30016"
+msgid "Check for changes when idle (seconds)"
+msgstr "Check for changes when idle (seconds)"
+
+msgctxt "#30017"
+msgid "Check for changes while playing (seconds)"
+msgstr "Check for changes while playing (seconds)"
 
 msgctxt "#30101"
-msgid "Progress synchronised"
-msgstr "Progress synchronised"
+msgid "Continue watching updated"
+msgstr "Continue watching updated"
 
-msgctxt "#30102"
-msgid "Configure the server URL and API token first"
-msgstr "Configure the server URL and API token first"
+msgctxt "#30200"
+msgid "Your home's pairing code"
+msgstr "Your home's pairing code"
 
-msgctxt "#30103"
-msgid "Could not contact the sync server"
-msgstr "Could not contact the sync server"
+msgctxt "#30201"
+msgid "Type this code into the add-on on every other television in the house."
+msgstr "Type this code into the add-on on every other television in the house."
 
-msgctxt "#30104"
-msgid "Not found in this Kodi library"
-msgstr "Not found in this Kodi library"
+msgctxt "#30202"
+msgid "Keep it to the people you would let sit on your sofa: anyone who has the code can read, and change, what this household has watched. Never post it in a forum, an issue or a screenshot."
+msgstr "Keep it to the people you would let sit on your sofa: anyone who has the code can read, and change, what this household has watched. Never post it in a forum, an issue or a screenshot."
+
+msgctxt "#30203"
+msgid "Channel name (only needed for the Custom URL option):"
+msgstr "Channel name (only needed for the Custom URL option):"
+
+msgctxt "#30210"
+msgid "Type the code from the other television"
+msgstr "Type the code from the other television"
+
+msgctxt "#30211"
+msgid "That is not a pairing code"
+msgstr "That is not a pairing code"
+
+msgctxt "#30212"
+msgid "Try again?"
+msgstr "Try again?"
+
+msgctxt "#30213"
+msgid "Joined"
+msgstr "Joined"
+
+msgctxt "#30214"
+msgid "This television is now part of the home. What the others have watched will appear here within a minute."
+msgstr "This television is now part of the home. What the others have watched will appear here within a minute."
+
+msgctxt "#30220"
+msgid "This is the first television - create a new home"
+msgstr "This is the first television - create a new home"
+
+msgctxt "#30221"
+msgid "Join a home that already exists"
+msgstr "Join a home that already exists"
+
+msgctxt "#30230"
+msgid "Untitled"
+msgstr "Untitled"
+
+msgctxt "#30231"
+msgid " min in"
+msgstr " min in"
+
+msgctxt "#30232"
+msgid "Nothing to continue yet"
+msgstr "Nothing to continue yet"

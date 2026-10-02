@@ -1,0 +1,18 @@
+# Deploy the durable sync endpoint. See worker.js for why this exists and what
+# it is not.
+#
+#   npm install -g wrangler
+#   wrangler kv namespace create ROOMWATCH   # paste the id below
+#   wrangler deploy
+#
+# Free plan, at the time of writing: 100,000 requests/day and 1,000 KV
+# writes/day. One household writes on the order of tens of times a day.
+
+name = "roomwatch-sync"
+main = "worker.js"
+compatibility_date = "2026-10-02"
+
+# Replace `id` with the value `wrangler kv namespace create ROOMWATCH` printed.
+[[kv_namespaces]]
+binding = "ROOMWATCH"
+id = "replace-me-with-your-namespace-id"

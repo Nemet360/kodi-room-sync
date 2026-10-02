@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Room Watch Sync for Kodi</title>
+<meta name="description" content="Keep the resume point of your films and episodes the same on every television in one house. No server, no account - one pairing code.">
+<style>
+  :root { color-scheme: dark light; --ink:#e8e6e3; --dim:#9a958f; --bg:#16181c;
+          --card:#1e2127; --line:#2c3038; --accent:#7fb4ff; --warn:#ffb86b; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.65
+         ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  main { max-width: 56rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  h1 { font-size: clamp(1.7rem, 4.5vw, 2.5rem); line-height:1.15; margin:0 0 .4rem; }
+  h2 { font-size:1.2rem; margin:2.5rem 0 .6rem; letter-spacing:.01em; }
+  p.lede { color:var(--dim); font-size:1.08rem; margin:0 0 2rem; }
+  a { color:var(--accent); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px;
+          padding:1.1rem 1.25rem; margin:.75rem 0; }
+  .card h3 { margin:0 0 .35rem; font-size:1rem; }
+  .card p { margin:.25rem 0 0; color:var(--dim); font-size:.95rem; }
+  code, .url { font-family: ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+               font-size:.9rem; }
+  .url { display:block; background:#12141a; border:1px solid var(--line);
+         border-radius:8px; padding:.7rem .85rem; margin:.5rem 0 0;
+         overflow-x:auto; white-space:nowrap; }
+  ol { padding-inline-start:1.3rem; }
+  ol li { margin:.5rem 0; }
+  .warn { border-color:#5a4426; background:#231c12; }
+  .warn h3 { color:var(--warn); }
+  footer { color:var(--dim); font-size:.9rem; border-top:1px solid var(--line);
+           margin-top:3rem; padding-top:1.2rem; }
+  .rtl { direction:rtl; text-align:right; }
+  .pill { display:inline-block; border:1px solid var(--line); border-radius:999px;
+          padding:.15rem .6rem; font-size:.8rem; color:var(--dim); margin-inline-end:.35rem; }
+</style>
+</head>
+<body>
+<main>
+
+  <h1>Room Watch Sync</h1>
+  <p class="lede">
+    Stop a film in one room, carry on in another. One pairing code for the whole
+    house — no server, no account, nothing to keep running.
+  </p>
+  <p>
+    <span class="pill">Kodi 19+</span>
+    <span class="pill">MIT licence</span>
+    <span class="pill">No account</span>
+    <span class="pill">Titles stay in the house</span>
+  </p>
+
+  <h2>Install</h2>
+  <ol>
+    <li>
+      On each television, install the repository zip:
+      <span class="url"><a href="repository/repository.roomwatchsync/repository.roomwatchsync-1.0.0.zip">repository.roomwatchsync-1.0.0.zip</a></span>
+    </li>
+    <li>
+      <strong>Settings → Add-ons → Install from zip file</strong>, pick that file.
+      Kodi will ask you to allow installation from unknown sources the first time.
+    </li>
+    <li>
+      <strong>Install from repository → Room Watch Sync Repository → Video add-ons
+      → Room Watch Sync</strong>.
+    </li>
+    <li>
+      Open the add-on. It asks one question: <em>this is the first television</em>
+      (it creates a home and shows you a code) or <em>join a home that already
+      exists</em> (type the code from the other television).
+    </li>
+  </ol>
+  <p>
+    Updates arrive through the repository, so this is the only install you do.
+    The add-on can also be installed directly from
+    <span class="url"><a href="repository/plugin.video.roomwatchsync/">repository/plugin.video.roomwatchsync/</a></span>
+    if you would rather not use the repository at all.
+  </p>
+
+  <h2>How it works</h2>
+  <div class="card">
+    <h3>The pairing code is the whole configuration</h3>
+    <p>
+      Sixteen characters in Crockford Base32 — no <code>I</code>, <code>L</code>,
+      <code>O</code> or <code>U</code>, because somebody reads it off one screen
+      and types it into another. From it, three independent values are derived
+      with HKDF-SHA256: the channel name, a key that turns a title into an opaque
+      identifier, and a key that signs every message.
+    </p>
+  </div>
+  <div class="card">
+    <h3>Titles never leave the house</h3>
+    <p>
+      A message carries an HMAC of the media's identity, a position in seconds
+      and a timestamp. Not "The Sopranos S03E08". Each television resolves that
+      opaque key against its own library, where the title already is — so there
+      is no plaintext to protect, which is stronger than encrypting one.
+    </p>
+  </div>
+  <div class="card">
+    <h3>Every television holds the whole state</h3>
+    <p>
+      The network is a transport, never a database. A television that was
+      switched off missed a delay, not a fact: it asks on startup, and whoever
+      is on answers.
+    </p>
+  </div>
+  <div class="card">
+    <h3>Nothing to run, and an option if you want durability</h3>
+    <p>
+      The default channel is <a href="https://ntfy.sh">ntfy.sh</a>, which needs
+      no account and keeps a message for 12 hours — extended to about three and a
+      half days by republishing each snapshot as delayed copies. For state that
+      simply persists, <code>server/worker.js</code> is a thirty-line Cloudflare
+      Worker: free, deployed once, no machine in the house.
+    </p>
+  </div>
+
+  <div class="card warn">
+    <h3>Your pairing code is a password</h3>
+    <p>
+      Anyone who has it can read — and change — what this household has watched.
+      Share it with the people you would let sit on your sofa, and never post it
+      in a forum, an issue or a screenshot. If you think it leaked, create a new
+      home and re-pair.
+    </p>
+  </div>
+
+  <div class="card warn">
+    <h3>What this is not</h3>
+    <p>
+      It contains no media, no links, no scrapers, no indexes and no search. It
+      must not be used to obtain or share content you do not hold the rights to,
+      or to circumvent any copy protection. It is not affiliated with Team Kodi
+      or the XBMC Foundation, and it comes with no warranty and no liability.
+      <a href="disclaimer.html">Read the full disclaimer</a> — in English and
+      Hebrew.
+    </p>
+  </div>
+
+  <h2 class="rtl">בעברית, בקצרה</h2>
+  <div class="card rtl">
+    <p>
+      עוצרים סרט בחדר אחד וממשיכים בשני. קוד צימוד אחד לכל הבית — בלי שרת, בלי
+      חשבון ובלי שום דבר שצריך להשאיר דולק. מתקינים את ה-zip של המאגר בכל
+      טלוויזיה, פותחים את התוסף, ועונים על שאלה אחת: זו הטלוויזיה הראשונה (נוצר
+      בית ומוצג קוד) או שמתחברים לבית קיים (מקלידים את הקוד מהטלוויזיה האחרת).
+    </p>
+    <p>
+      שמות התוכן לא יוצאים מהבית: על הקו נוסע מפתח אטום, מיקום בשניות וחתימת
+      זמן. קוד הצימוד הוא סיסמה — אל תפרסמו אותו.
+      <a href="disclaimer.html">כתב הוויתור המלא</a>.
+    </p>
+  </div>
+
+  <footer>
+    <p>
+      MIT licence · <a href="https://github.com/Nemet360/kodi-room-sync">source on
+      GitHub</a> · <a href="disclaimer.html">disclaimer</a> ·
+      <a href="LICENSE">LICENSE</a>
+    </p>
+    <p>
+      A personal hobby project, provided as is, with no warranty, no liability and
+      no support obligation. "Kodi" is a trademark of the XBMC Foundation, used
+      here only to identify the software this add-on runs inside.
+    </p>
+  </footer>
+
+</main>
+</body>
+</html>

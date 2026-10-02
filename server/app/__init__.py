@@ -1,1 +1,0 @@
-"""WatchSync synchronization server."""

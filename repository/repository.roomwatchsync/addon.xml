@@ -5,9 +5,9 @@
        provider-name="Nemet360">
     <extension point="xbmc.addon.repository" name="Room Watch Sync Repository">
         <dir>
-            <info compressed="false">https://raw.githubusercontent.com/Nemet360/kodi-room-sync/main/repository/addons.xml</info>
-            <checksum verify="sha256">https://raw.githubusercontent.com/Nemet360/kodi-room-sync/main/repository/addons.xml.sha256</checksum>
-            <datadir zip="true">https://raw.githubusercontent.com/Nemet360/kodi-room-sync/main/repository/</datadir>
+            <info compressed="false">https://nemet360.github.io/kodi-room-sync/repository/addons.xml</info>
+            <checksum verify="sha256">https://nemet360.github.io/kodi-room-sync/repository/addons.xml.sha256</checksum>
+            <datadir zip="true">https://nemet360.github.io/kodi-room-sync/repository/</datadir>
             <hashes>sha256</hashes>
         </dir>
     </extension>
@@ -16,8 +16,12 @@
         <summary lang="he_IL">התקנה ועדכון של Room Watch Sync</summary>
         <description lang="en_GB">Official repository for the Room Watch Sync Kodi add-on.</description>
         <description lang="he_IL">המאגר הרשמי של תוסף Room Watch Sync עבור Kodi.</description>
+        <disclaimer lang="en_GB">Provided as is, with no warranty and no liability. This repository hosts one add-on that synchronises playback positions between your own devices. It contains no media, no links, no scrapers and no search of any kind, and must not be used to obtain or share content you do not hold the rights to. Not affiliated with Team Kodi or the XBMC Foundation. Full text: https://nemet360.github.io/kodi-room-sync/disclaimer.html</disclaimer>
+        <disclaimer lang="he_IL">ניתן כמות שהוא, בלי אחריות ובלי חבות. המאגר מכיל תוסף אחד שמסנכרן מיקומי נגינה בין המכשירים שלך. אין בו מדיה, קישורים, scrapers או חיפוש מכל סוג, ואסור להשתמש בו כדי להשיג או לשתף תוכן שאין לך זכויות בו. אין זיקה ל-Team Kodi או לקרן XBMC. הנוסח המלא: https://nemet360.github.io/kodi-room-sync/disclaimer.html</disclaimer>
         <platform>all</platform>
         <license>MIT</license>
+        <website>https://nemet360.github.io/kodi-room-sync/</website>
+        <source>https://github.com/Nemet360/kodi-room-sync</source>
         <assets>
             <icon>resources/icon.png</icon>
         </assets>

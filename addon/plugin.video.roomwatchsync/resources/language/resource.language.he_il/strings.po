@@ -4,53 +4,113 @@ msgstr ""
 "Language: he_IL\n"
 
 msgctxt "#30000"
-msgid "General"
-msgstr "כללי"
+msgid "Home"
+msgstr "הבית"
 
 msgctxt "#30001"
-msgid "Server URL"
-msgstr "כתובת השרת"
-
-msgctxt "#30002"
-msgid "API token"
-msgstr "אסימון API"
+msgid "Pairing code"
+msgstr "קוד צימוד"
 
 msgctxt "#30003"
-msgid "Device identifier"
-msgstr "מזהה המכשיר"
-
-msgctxt "#30004"
-msgid "Upload interval (seconds)"
-msgstr "תדירות העלאה (שניות)"
+msgid "Name of this television"
+msgstr "שם הטלוויזיה הזאת"
 
 msgctxt "#30005"
-msgid "Resume rewind (seconds)"
-msgstr "חזרה לפני המשך (שניות)"
-
-msgctxt "#30006"
-msgid "Library sync interval (minutes)"
-msgstr "תדירות סנכרון הספרייה (דקות)"
+msgid "Rewind when resuming (seconds)"
+msgstr "חזרה אחורה בהמשך צפייה (שניות)"
 
 msgctxt "#30007"
-msgid "Show sync notifications"
-msgstr "הצגת הודעות סנכרון"
+msgid "Show a notification when something syncs"
+msgstr "להציג הודעה כשמשהו מסתנכרן"
 
-msgctxt "#30100"
-msgid "Continue watching"
-msgstr "המשך צפייה"
+msgctxt "#30010"
+msgid "Advanced"
+msgstr "מתקדם"
+
+msgctxt "#30011"
+msgid "Sync channel"
+msgstr "ערוץ הסנכרון"
+
+msgctxt "#30012"
+msgid "ntfy (no setup needed)"
+msgstr "ntfy (בלי שום הגדרה)"
+
+msgctxt "#30013"
+msgid "Custom URL (durable)"
+msgstr "כתובת משלך (עמיד לאורך זמן)"
+
+msgctxt "#30014"
+msgid "ntfy server"
+msgstr "שרת ntfy"
+
+msgctxt "#30015"
+msgid "Sync URL"
+msgstr "כתובת הסנכרון"
+
+msgctxt "#30016"
+msgid "Check for changes when idle (seconds)"
+msgstr "בדיקת עדכונים כשאין נגינה (שניות)"
+
+msgctxt "#30017"
+msgid "Check for changes while playing (seconds)"
+msgstr "בדיקת עדכונים בזמן נגינה (שניות)"
 
 msgctxt "#30101"
-msgid "Progress synchronised"
-msgstr "ההתקדמות סונכרנה"
+msgid "Continue watching updated"
+msgstr "המשך הצפייה עודכן"
 
-msgctxt "#30102"
-msgid "Configure the server URL and API token first"
-msgstr "יש להגדיר תחילה כתובת שרת ואסימון API"
+msgctxt "#30200"
+msgid "Your home's pairing code"
+msgstr "קוד הצימוד של הבית"
 
-msgctxt "#30103"
-msgid "Could not contact the sync server"
-msgstr "לא ניתן להתחבר לשרת הסנכרון"
+msgctxt "#30201"
+msgid "Type this code into the add-on on every other television in the house."
+msgstr "הקלידו את הקוד הזה בתוסף בכל טלוויזיה אחרת בבית."
 
-msgctxt "#30104"
-msgid "Not found in this Kodi library"
-msgstr "הפריט לא נמצא בספריית Kodi הזאת"
+msgctxt "#30202"
+msgid "Keep it to the people you would let sit on your sofa: anyone who has the code can read, and change, what this household has watched. Never post it in a forum, an issue or a screenshot."
+msgstr "שמרו אותו לאנשים שהייתם מרשים לשבת על הספה שלכם: כל מי שיש לו הקוד יכול לקרוא — וגם לשנות — מה הבית הזה צפה. אל תפרסמו אותו בפורום, ב-issue או בצילום מסך."
+
+msgctxt "#30203"
+msgid "Channel name (only needed for the Custom URL option):"
+msgstr "שם הערוץ (נדרש רק לאפשרות של כתובת משלך):"
+
+msgctxt "#30210"
+msgid "Type the code from the other television"
+msgstr "הקלידו את הקוד מהטלוויזיה האחרת"
+
+msgctxt "#30211"
+msgid "That is not a pairing code"
+msgstr "זה לא קוד צימוד"
+
+msgctxt "#30212"
+msgid "Try again?"
+msgstr "לנסות שוב?"
+
+msgctxt "#30213"
+msgid "Joined"
+msgstr "מחובר"
+
+msgctxt "#30214"
+msgid "This television is now part of the home. What the others have watched will appear here within a minute."
+msgstr "הטלוויזיה הזאת מחוברת לבית. מה שהאחרים צפו יופיע כאן תוך דקה."
+
+msgctxt "#30220"
+msgid "This is the first television - create a new home"
+msgstr "זו הטלוויזיה הראשונה — ליצור בית חדש"
+
+msgctxt "#30221"
+msgid "Join a home that already exists"
+msgstr "להתחבר לבית קיים"
+
+msgctxt "#30230"
+msgid "Untitled"
+msgstr "בלי שם"
+
+msgctxt "#30231"
+msgid " min in"
+msgstr " דק' מההתחלה"
+
+msgctxt "#30232"
+msgid "Nothing to continue yet"
+msgstr "אין עוד מה להמשיך"

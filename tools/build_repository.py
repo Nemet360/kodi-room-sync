@@ -21,11 +21,23 @@ METADATA_FILES = {"addon.xml", "changelog.txt", "icon.png", "fanart.jpg", "fanar
 
 
 def _is_packaged_file(path: Path) -> bool:
+    """Everything in the add-on directory ships to every television, so the
+    filter is a deny-list of the things that are not the add-on.
+
+    Dotted directories are excluded as a CLASS rather than by name. Naming them
+    one at a time is how `.pytest_cache` reached a built zip: running the test
+    suite inside the add-on directory leaves it there, the named ignores did not
+    cover it, and five cache files were installed on every television. The next
+    tool to leave a dotted directory would do the same.
+    """
+    parts = path.parts
     return (
         path.is_file()
         and path.name not in IGNORED_NAMES
+        and not path.name.startswith(".")
         and path.suffix.lower() not in IGNORED_SUFFIXES
-        and not IGNORED_DIRECTORIES.intersection(path.parts)
+        and not IGNORED_DIRECTORIES.intersection(parts)
+        and not any(part.startswith(".") for part in parts)
     )
 
 
