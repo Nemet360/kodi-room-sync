@@ -100,6 +100,58 @@ def _render_index(manifests: list[ElementTree.Element]) -> bytes:
     return ("\n".join(lines) + "\n").encode("utf-8")
 
 
+INDEX_TEMPLATE = """<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<title>Room Watch Sync repository {title}</title></head>
+<body>
+<h1>Index of {title}</h1>
+<ul>
+{rows}
+</ul>
+</body></html>
+"""
+
+
+def _write_one_index(directory: Path, root: Path) -> Path:
+    rows = []
+    if directory != root:
+        rows.append('<li><a href="../">../</a></li>')
+    for entry in sorted(directory.iterdir(), key=lambda item: (item.is_file(), item.name)):
+        if entry.name == "index.html":
+            continue
+        # A directory link keeps its trailing slash: Kodi resolves one without
+        # it as a file and then fails to open it.
+        name = entry.name + ("/" if entry.is_dir() else "")
+        rows.append(f'<li><a href="{name}">{name}</a></li>')
+    title = "/" if directory == root else "/" + directory.relative_to(root).as_posix()
+    target = directory / "index.html"
+    target.write_text(INDEX_TEMPLATE.format(title=title, rows="\n".join(rows)),
+                      encoding="utf-8")
+    return target
+
+
+def _write_directory_indexes(root: Path) -> list[Path]:
+    """An `index.html` of plain links in every directory of the repository.
+
+    GitHub Pages serves no directory listing: a GET on `.../repository/`
+    answers **404** — measured. Kodi's "Install from zip file" browses an HTTP
+    source by parsing the anchors in the directory's HTML, so without these
+    files the owner adds the source, opens it and sees an empty folder with
+    nothing to click. That looks like a broken repository and is actually a
+    missing index.
+
+    The repository add-on itself never needed this: once installed it reads
+    `addons.xml` and fetches the exact zip path out of `datadir`. Only the
+    first manual install — the one a person does by hand — goes through
+    browsing, which is why every automated check passed and it failed on a
+    real television.
+    """
+    written = [_write_one_index(root, root)]
+    for directory in sorted(path for path in root.rglob("*") if path.is_dir()):
+        written.append(_write_one_index(directory, root))
+    return written
+
+
 def build_repository(root: Path, output: Path) -> list[Path]:
     addon_root = root / "addon"
     addon_dirs = sorted(
@@ -134,6 +186,8 @@ def build_repository(root: Path, output: Path) -> list[Path]:
         if output.exists():
             shutil.rmtree(output)
         temporary.replace(output)
+        for page in _write_directory_indexes(output):
+            artifacts.append(page.relative_to(output))
     except BaseException:
         shutil.rmtree(temporary, ignore_errors=True)
         raise

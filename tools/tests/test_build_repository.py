@@ -96,3 +96,69 @@ class TestDottedDirectoriesAreNeverPackaged(unittest.TestCase):
             self.assertTrue(_is_packaged_file(root / "addon.xml"))
             self.assertTrue(_is_packaged_file(
                 root / "resources" / "lib" / "pairing.py"))
+
+
+class TestDirectoryIndexes(unittest.TestCase):
+    """GitHub Pages serves no directory listing — a GET on `.../repository/`
+    answers 404, measured on the live site. Kodi's "Install from zip file"
+    browses an HTTP source by parsing the anchors in the directory's HTML, so
+    without an index the owner opens the source and sees an empty folder.
+
+    This failed on a real television while every automated check passed,
+    because the repository add-on itself reads addons.xml and never browses.
+    """
+
+    def _build(self, tmp):
+        root = Path(tmp)
+        addon = root / "addon" / "plugin.video.example"
+        (addon / "resources").mkdir(parents=True)
+        (addon / "addon.xml").write_text(MANIFEST, encoding="utf-8")
+        (addon / "default.py").write_text("pass", encoding="utf-8")
+        (addon / "resources" / "icon.png").write_bytes(b"png")
+        output = root / "repository"
+        build_repository(root, output)
+        return output
+
+    def test_every_directory_gets_an_index(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = self._build(tmp)
+            for directory in [output] + [p for p in output.rglob("*") if p.is_dir()]:
+                self.assertTrue((directory / "index.html").is_file(),
+                                "%s has no index.html" % directory)
+
+    def test_the_zip_is_linked_so_it_can_be_clicked(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = self._build(tmp)
+            page = (output / "plugin.video.example" / "index.html").read_text(
+                encoding="utf-8")
+            self.assertIn('href="plugin.video.example-1.2.3.zip"', page)
+
+    def test_a_directory_link_keeps_its_trailing_slash(self):
+        """Kodi resolves a directory link without one as a file and then fails
+        to open it."""
+        with tempfile.TemporaryDirectory() as tmp:
+            output = self._build(tmp)
+            root_page = (output / "index.html").read_text(encoding="utf-8")
+            self.assertIn('href="plugin.video.example/"', root_page)
+
+    def test_a_subdirectory_can_be_navigated_back_out_of(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = self._build(tmp)
+            page = (output / "plugin.video.example" / "index.html").read_text(
+                encoding="utf-8")
+            self.assertIn('href="../"', page)
+            self.assertNotIn('href="../"',
+                             (output / "index.html").read_text(encoding="utf-8"))
+
+    def test_the_index_does_not_list_itself(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = self._build(tmp)
+            self.assertNotIn('href="index.html"',
+                             (output / "index.html").read_text(encoding="utf-8"))
+
+    def test_the_manifest_and_checksums_are_linked(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = self._build(tmp)
+            page = (output / "index.html").read_text(encoding="utf-8")
+            for name in ("addons.xml", "addons.xml.md5", "addons.xml.sha256"):
+                self.assertIn('href="%s"' % name, page)
