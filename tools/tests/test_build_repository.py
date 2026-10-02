@@ -162,3 +162,57 @@ class TestDirectoryIndexes(unittest.TestCase):
             page = (output / "index.html").read_text(encoding="utf-8")
             for name in ("addons.xml", "addons.xml.md5", "addons.xml.sha256"):
                 self.assertIn('href="%s"' % name, page)
+
+
+class TestZipHashes(unittest.TestCase):
+    """The repository manifest declares `<hashes>sha256</hashes>`, so Kodi
+    verifies each downloaded zip against a hash file next to it. Without that
+    file Kodi fetches the zip and then says "installation failed" and nothing
+    else — measured on a real television: the zip answered 200 and
+    `...-0.2.0.zip.sha256` answered 404.
+    """
+
+    def _build(self, tmp):
+        root = Path(tmp)
+        addon = root / "addon" / "plugin.video.example"
+        addon.mkdir(parents=True)
+        (addon / "addon.xml").write_text(MANIFEST, encoding="utf-8")
+        (addon / "default.py").write_text("pass", encoding="utf-8")
+        output = root / "repository"
+        build_repository(root, output)
+        return output / "plugin.video.example" / "plugin.video.example-1.2.3.zip"
+
+    def test_a_hash_file_sits_next_to_every_zip(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            archive = self._build(tmp)
+            for suffix in (".sha256", ".md5"):
+                self.assertTrue(archive.with_name(archive.name + suffix).is_file(),
+                                "missing %s" % suffix)
+
+    def test_the_hash_actually_matches_the_zip(self):
+        """A hash that does not match is worse than none: Kodi then refuses an
+        add-on that is perfectly fine, for a reason it does not print."""
+        with tempfile.TemporaryDirectory() as tmp:
+            archive = self._build(tmp)
+            payload = archive.read_bytes()
+            self.assertEqual(
+                archive.with_name(archive.name + ".sha256").read_text().strip(),
+                hashlib.sha256(payload).hexdigest())
+            self.assertEqual(
+                archive.with_name(archive.name + ".md5").read_text().strip(),
+                hashlib.md5(payload).hexdigest())
+
+    def test_the_hash_file_is_the_bare_digest(self):
+        """Kodi parses the digest alone — a `digest  filename` line, which is
+        what `sha256sum` writes, is not what it expects."""
+        with tempfile.TemporaryDirectory() as tmp:
+            archive = self._build(tmp)
+            text = archive.with_name(archive.name + ".sha256").read_text()
+            self.assertNotIn(" ", text)
+            self.assertEqual(len(text.strip()), 64)
+
+    def test_the_hash_files_are_listed_in_the_directory_index(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            archive = self._build(tmp)
+            page = (archive.parent / "index.html").read_text(encoding="utf-8")
+            self.assertIn(archive.name + ".sha256", page)

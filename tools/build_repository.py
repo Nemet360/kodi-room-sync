@@ -76,6 +76,28 @@ def _zip_addon(addon_dir: Path, destination: Path, addon_id: str) -> None:
             archive.writestr(info, source.read_bytes(), compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
 
 
+def _write_zip_hashes(archive: Path) -> list[Path]:
+    """`<zip>.sha256` and `<zip>.md5` beside every archive.
+
+    The repository manifest declares `<hashes>sha256</hashes>`, which tells Kodi
+    to verify each add-on zip it downloads against a hash file sitting next to
+    it. Without that file Kodi fetches the zip successfully and then reports
+    "installation failed" with no further explanation — measured: the zip
+    answered 200 and `plugin.video.roomwatchsync-0.2.0.zip.sha256` answered 404.
+
+    The md5 goes out too: older Kodi builds ask for that one, and the cost of
+    both is 100 bytes.
+    """
+    payload = archive.read_bytes()
+    written = []
+    for suffix, digest in (("sha256", hashlib.sha256), ("md5", hashlib.md5)):
+        target = archive.with_name(archive.name + "." + suffix)
+        # The bare digest with no filename: that is the form Kodi parses.
+        target.write_text(digest(payload).hexdigest(), encoding="ascii")
+        written.append(target)
+    return written
+
+
 def _copy_metadata(addon_dir: Path, destination: Path, manifest: ElementTree.Element) -> None:
     candidates = {Path(name) for name in METADATA_FILES if (addon_dir / name).is_file()}
     for asset in manifest.findall("./extension[@point='xbmc.addon.metadata']/assets/*"):
@@ -176,6 +198,8 @@ def build_repository(root: Path, output: Path) -> list[Path]:
             _copy_metadata(addon_dir, target_dir, manifest)
             manifests.append(manifest)
             artifacts.append(Path(addon_id) / archive.name)
+            for hash_file in _write_zip_hashes(archive):
+                artifacts.append(Path(addon_id) / hash_file.name)
 
         index = _render_index(manifests)
         (temporary / "addons.xml").write_bytes(index)
