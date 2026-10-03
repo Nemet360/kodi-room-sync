@@ -24,7 +24,7 @@
             </assets>
         </extension>
     </addon>
-    <addon id="repository.roomwatchsync" name="Room Watch Sync Repository" version="1.0.0" provider-name="Nemet360">
+    <addon id="repository.roomwatchsync" name="Room Watch Sync Repository" version="1.1.0" provider-name="Nemet360">
         <extension point="xbmc.addon.repository" name="Room Watch Sync Repository">
             <dir>
                 <info compressed="false">https://nemet360.github.io/kodi-room-sync/repository/addons.xml</info>
@@ -32,14 +32,18 @@
                 <datadir zip="true">https://nemet360.github.io/kodi-room-sync/repository/</datadir>
                 <hashes>sha256</hashes>
             </dir>
+            <dir>
+                <info compressed="false">https://raw.githubusercontent.com/peno64/repository.peno64/master/repo/zips/addons.xml</info>
+                <datadir zip="true">https://raw.githubusercontent.com/peno64/repository.peno64/master/repo/zips/</datadir>
+            </dir>
         </extension>
         <extension point="xbmc.addon.metadata">
             <summary lang="en_GB">Install and update Room Watch Sync</summary>
             <summary lang="he_IL">התקנה ועדכון של Room Watch Sync</summary>
-            <description lang="en_GB">Official repository for the Room Watch Sync Kodi add-on.</description>
-            <description lang="he_IL">המאגר הרשמי של תוסף Room Watch Sync עבור Kodi.</description>
-            <disclaimer lang="en_GB">Provided as is, with no warranty and no liability. This repository hosts one add-on that synchronises playback positions between your own devices. It contains no media, no links, no scrapers and no search of any kind, and must not be used to obtain or share content you do not hold the rights to. Not affiliated with Team Kodi or the XBMC Foundation. Full text: https://nemet360.github.io/kodi-room-sync/disclaimer.html</disclaimer>
-            <disclaimer lang="he_IL">ניתן כמות שהוא, בלי אחריות ובלי חבות. המאגר מכיל תוסף אחד שמסנכרן מיקומי נגינה בין המכשירים שלך. אין בו מדיה, קישורים, scrapers או חיפוש מכל סוג, ואסור להשתמש בו כדי להשיג או לשתף תוכן שאין לך זכויות בו. אין זיקה ל-Team Kodi או לקרן XBMC. הנוסח המלא: https://nemet360.github.io/kodi-room-sync/disclaimer.html</disclaimer>
+            <description lang="en_GB">Official repository for the Room Watch Sync Kodi add-on. It also surfaces peno64's add-ons, read live from peno64's own GitHub - nothing of theirs is hosted here.</description>
+            <description lang="he_IL">המאגר הרשמי של תוסף Room Watch Sync עבור Kodi. בנוסף הוא חושף את התוספים של peno64, שנקראים ישירות מה-GitHub שלהם — שום קובץ שלהם אינו מאוחסן כאן.</description>
+            <disclaimer lang="en_GB">Provided as is, with no warranty and no liability. This repository hosts one add-on that synchronises playback positions between your own devices. It contains no media, no links, no scrapers and no search of any kind, and must not be used to obtain or share content you do not hold the rights to. This repository also lists add-ons published by peno64, which are read live from peno64's own GitHub: they are their author's work under their author's terms, are not hosted, reviewed or endorsed here, and this project accepts no responsibility for them. Not affiliated with Team Kodi or the XBMC Foundation. Full text: https://nemet360.github.io/kodi-room-sync/disclaimer.html</disclaimer>
+            <disclaimer lang="he_IL">ניתן כמות שהוא, בלי אחריות ובלי חבות. המאגר מכיל תוסף אחד שמסנכרן מיקומי נגינה בין המכשירים שלך. אין בו מדיה, קישורים, scrapers או חיפוש מכל סוג, ואסור להשתמש בו כדי להשיג או לשתף תוכן שאין לך זכויות בו. המאגר מציג גם תוספים של peno64, שנקראים ישירות מה-GitHub שלהם: הם היצירה של המחבר שלהם ולפי התנאים שלו, אינם מאוחסנים, נבדקים או מאושרים כאן, והפרויקט הזה אינו נושא באחריות להם. אין זיקה ל-Team Kodi או לקרן XBMC. הנוסח המלא: https://nemet360.github.io/kodi-room-sync/disclaimer.html</disclaimer>
             <platform>all</platform>
             <license>MIT</license>
             <website>https://nemet360.github.io/kodi-room-sync/</website>

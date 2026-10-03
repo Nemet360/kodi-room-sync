@@ -14,7 +14,7 @@
 ## התקנה
 
 1. בכל טלוויזיה, התקינו את ה-zip של המאגר:
-   [`repository.roomwatchsync-1.0.0.zip`](https://nemet360.github.io/kodi-room-sync/repository/repository.roomwatchsync/repository.roomwatchsync-1.0.0.zip)
+   [`repository.roomwatchsync-1.1.0.zip`](https://nemet360.github.io/kodi-room-sync/repository/repository.roomwatchsync/repository.roomwatchsync-1.1.0.zip)
    (**Settings → Add-ons → Install from zip file**; בפעם הראשונה Kodi יבקש
    לאשר התקנה ממקור לא מזוהה).
 2. **Install from repository → Room Watch Sync Repository → Video add-ons →
@@ -24,6 +24,27 @@
    - **להתחבר לבית קיים** — מקלידים את הקוד מהטלוויזיה האחרת.
 
 זה הכל. אין כתובת שרת, אין token, אין פורט.
+
+## גם כאן: התוספים של peno64
+
+אחרי התקנת **Room Watch Sync Repository**, התוספים של peno64 מופיעים בתוכו לצד
+שלנו — וביניהם `repository.peno64` עצמו, כך שאפשר להתקין את כל המאגר שלהם
+מכאן בצעד אחד.
+
+**שום קובץ שלהם אינו מאוחסן כאן.** קודי קורא את
+[האינדקס של peno64](https://github.com/peno64/repository.peno64) ומוריד את
+הזיפים ישירות מה-GitHub שלהם, כך שהם נשארים המפרסמים ועדכון שלהם מגיע ברגע
+שהוא יוצא. העבודה שלהם לפי התנאים שלהם, אינה נבדקת או מאושרת כאן, והפרויקט
+הזה אינו נושא באחריות לה.
+
+להתקנת המאגר שלהם בדרך המקורית: <https://peno64.github.io/repository.peno64/>
+
+שני דברים הושמטו במכוון מההכרזה שלהם אצלנו, ושניהם ברמת ה-`<dir>` ולא ברמת
+המאגר — בדיוק הסיבה שזה `<dir>` שני ולא עריכה של שלנו: אין `<checksum>`, כי
+ה-`addons.xml.md5` שהם מפרסמים אינו תואם את הבייטים שהשרת שלהם מחזיר (נמדד
+בשלוש התיקיות שלהם), והצהרה על checksum שלא יתאמת תגרום לקודי לדחות את
+התיקייה; ואין `<hashes>`, כי הם לא מפרסמים hash לכל zip, ובקשה מקודי לאמת מול
+קובץ שמחזיר 404 היא בדיוק ה"ההתקנה נכשלה" בלי סיבה שהמאגר הזה נתקל בו.
 
 ## קוד הצימוד הוא סיסמה
 
