@@ -1,3 +1,16 @@
+v3.0.1-beta.4 (2026-10-03)
+- Fix: the on-screen mic button overlay (lib/mic_button.py) was dead code
+  - service.py never instantiated or polled it, so voice input had no
+  trigger at all without a paired BLE remote or a hand-written keymap
+- New "multi" autocomplete_lang option: query the provider once per
+  language picked in the new multiselect autocomplete_lang_multi
+  setting and merge+dedupe results, instead of only ever searching one
+  language (or auto's fixed he/en pair)
+- Note: suggestions showing nothing is not a bug in this addon on
+  Estuary or Aeon Nox SiLVO - both already call plugin.program.autocompletion
+  natively. Check: addon enabled, and on Aeon Nox SiLVO also toggle
+  Configure Skin -> Extras -> "Enable autocomplete"
+
 v3.0.1-beta.3 (2026-07-18)
 - Tap mic to start, tap again to stop (remote-native toggle); silence
   detection (1.5s) stops automatically if you just stop talking
