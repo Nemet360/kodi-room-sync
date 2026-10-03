@@ -24,6 +24,7 @@ except ImportError:
     _KODI_AVAILABLE = False
 
 from lib.audio_capture import get_audio_backend
+from lib.mic_button import MicButtonMonitor
 from lib.rate_limiter import RateLimiter
 from lib.stt import get_stt_provider
 from lib.stt.gemini import GeminiSTTProvider  # noqa: F401 — pre-import for thread access
@@ -45,7 +46,7 @@ class VoiceService(object):
         self._rate_limiter = RateLimiter()
         self._ble_backend = None
         self._stt_provider = None
-        self._mic_button = None
+        self._mic_button = MicButtonMonitor()
 
     def _get_state(self):
         with self._lock:
@@ -497,8 +498,16 @@ class VoiceService(object):
                         t = threading.Thread(target=self._worker)
                         t.daemon = True
                         t.start()
+
+            # On-screen mic button: shows/hides itself with the virtual
+            # keyboard, independent of BLE hardware or any keymap — without
+            # this poll the overlay class was dead code and voice input had
+            # no trigger at all on an install with no paired BLE remote.
+            self._mic_button.update()
+
             monitor.waitForAbort(0.5)
 
+        self._mic_button.close()
         if hasattr(self, "_btmon_proc") and self._btmon_proc:
             self._btmon_proc.terminate()
         xbmc.log("Voice keyboard service stopped")

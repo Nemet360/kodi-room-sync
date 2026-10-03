@@ -85,6 +85,67 @@ class TestResolveLanguage(unittest.TestCase):
         kodistubs.settings["autocomplete_lang"] = ""
         self.assertEqual(AutoCompletion.resolve_language("שובר"), "")
 
+    def test_multi_returns_the_configured_language_list(self):
+        kodistubs.settings["autocomplete_lang"] = "multi"
+        kodistubs.settings["autocomplete_lang_multi"] = "en,he,fr"
+        self.assertEqual(AutoCompletion.resolve_language("x"), ["en", "he", "fr"])
+
+    def test_multi_is_matched_case_and_space_insensitively(self):
+        kodistubs.settings["autocomplete_lang_multi"] = "en,he"
+        for value in ("Multi", "MULTI", " multi "):
+            kodistubs.settings["autocomplete_lang"] = value
+            self.assertEqual(AutoCompletion.resolve_language("x"), ["en", "he"])
+
+    def test_multi_with_no_languages_picked_falls_back_to_english(self):
+        """A fresh install could reach `multi` with an unset/empty list
+        setting - that must still search something, not return nothing."""
+        kodistubs.settings["autocomplete_lang"] = "multi"
+        kodistubs.settings["autocomplete_lang_multi"] = ""
+        self.assertEqual(AutoCompletion.resolve_language("x"), ["en"])
+
+
+class TestMultiLanguageMerge(unittest.TestCase):
+    """`get_autocomplete_items` must query every selected language and merge,
+    never just pick one - that is the whole point of `multi` over `auto`."""
+
+    def setUp(self):
+        kodistubs.settings["autocomplete_lang"] = "multi"
+        kodistubs.settings["autocomplete_provider"] = "Google"
+        self._orig_get_predictions = AutoCompletion.GoogleProvider.get_predictions
+        calls = self.calls = []
+
+        def fake_get_predictions(provider_self, search_str):
+            calls.append(provider_self.language)
+            by_lang = {
+                "en": ["breaking bad", "shared title"],
+                "he": ["שובר שורות", "shared title"],
+            }
+            return [
+                {"label": label, "search_string": label}
+                for label in by_lang.get(provider_self.language, [])
+            ]
+
+        AutoCompletion.GoogleProvider.get_predictions = fake_get_predictions
+
+    def tearDown(self):
+        AutoCompletion.GoogleProvider.get_predictions = self._orig_get_predictions
+
+    def test_queries_every_selected_language(self):
+        kodistubs.settings["autocomplete_lang_multi"] = "en,he"
+        AutoCompletion.get_autocomplete_items("x", limit=10)
+        self.assertEqual(self.calls, ["en", "he"])
+
+    def test_merges_and_dedupes_preserving_first_seen_order(self):
+        kodistubs.settings["autocomplete_lang_multi"] = "en,he"
+        items = AutoCompletion.get_autocomplete_items("x", limit=10)
+        labels = [i["label"] for i in items]
+        self.assertEqual(labels, ["breaking bad", "shared title", "שובר שורות"])
+
+    def test_merged_result_is_still_capped_at_the_limit(self):
+        kodistubs.settings["autocomplete_lang_multi"] = "en,he"
+        items = AutoCompletion.get_autocomplete_items("x", limit=2)
+        self.assertEqual(len(items), 2)
+
 
 class TestProvidersUseTheResolvedLanguage(unittest.TestCase):
     """The sentinel "auto" must never reach a real request URL."""

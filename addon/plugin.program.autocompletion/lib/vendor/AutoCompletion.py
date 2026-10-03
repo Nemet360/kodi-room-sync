@@ -38,6 +38,14 @@ def get_autocomplete_items(search_str, limit=10, provider=None):
         return []
 
     language = resolve_language(search_str)
+    if isinstance(language, list):
+        return _get_multi_language_items(search_str, limit, language)
+
+    provider = _build_provider(language, limit)
+    return provider.get_predictions(search_str)
+
+
+def _build_provider(language, limit):
     setting = SETTING("autocomplete_provider").lower()
 
     if setting == "youtube":
@@ -51,7 +59,29 @@ def get_autocomplete_items(search_str, limit=10, provider=None):
     else:
         provider = LocalDictProvider(limit=limit, language=language)
     provider.limit = limit
-    return provider.get_predictions(search_str)
+    return provider
+
+
+def _get_multi_language_items(search_str, limit, languages):
+    """Query the configured provider once per selected language and merge.
+
+    Each language gets the full `limit` so a language near the end of the
+    list is never starved by an earlier one filling the quota — the merge
+    (not the per-language fetch) is where the cap is enforced. Order is
+    preserved by first appearance, and a label already seen under an
+    earlier language is dropped rather than shown twice.
+    """
+    seen = set()
+    merged = []
+    for lang in languages:
+        provider = _build_provider(lang, limit)
+        for item in provider.get_predictions(search_str):
+            key = item.get("label")
+            if key in seen:
+                continue
+            seen.add(key)
+            merged.append(item)
+    return merged[: int(limit)]
 
 
 def detect_language(text):
@@ -74,16 +104,24 @@ def resolve_language(search_str):
     """The effective language for this one request.
 
     `autocomplete_lang` stays a fixed value for everyone who has not touched
-    the new "auto" option — existing installs keep behaving exactly as
-    before. Picking "auto" is what turns detection on, and the result is
-    returned per call rather than written back into any setting or global:
-    the configured value needs to survive being read again next time
-    unchanged, and a fixed value must never be overwritten by whichever
-    language happened to be typed last.
+    the new "auto"/"multi" options — existing installs keep behaving exactly
+    as before. Picking "auto" turns per-query he/en detection on; picking
+    "multi" returns a LIST of the languages chosen in `autocomplete_lang_multi`
+    (a Kodi list[string] setting, stored comma-separated), which the caller
+    queries and merges instead of picking just one. The result is returned
+    per call rather than written back into any setting or global: the
+    configured value needs to survive being read again next time unchanged,
+    and a fixed value must never be overwritten by whichever language
+    happened to be typed last.
     """
     configured = (SETTING("autocomplete_lang") or "").strip()
-    if configured.lower() == "auto":
+    lowered = configured.lower()
+    if lowered == "auto":
         return detect_language(search_str)
+    if lowered == "multi":
+        raw = SETTING("autocomplete_lang_multi") or ""
+        langs = [code.strip() for code in raw.split(",") if code.strip()]
+        return langs or ["en"]
     return configured
 
 

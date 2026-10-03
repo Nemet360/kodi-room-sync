@@ -31,6 +31,10 @@
                                  suggestions with no manual switching. Any other language code here
                                  behaves exactly as before - this option is purely additive. -->
                             <option>auto</option>
+                            <!-- Queries the provider once per language picked below (next
+                                 setting) and merges the results, for searching in more than
+                                 two languages at once (auto only ever covers he/en). -->
+                            <option>multi</option>
                             <option>bg</option>
                             <option>cs</option>
                             <option>da</option>
@@ -68,6 +72,48 @@
                                 <condition operator="!is" setting="autocomplete_provider">bing</condition>
                             </and>
                         </dependency>
+                    </dependencies>
+                </setting>
+
+                <setting label="32116" id="autocomplete_lang_multi" type="list[string]" help="">
+                    <level>0</level>
+                    <default>en,he</default>
+                    <constraints>
+                        <options>
+                            <option>bg</option>
+                            <option>cs</option>
+                            <option>da</option>
+                            <option>de</option>
+                            <option>el</option>
+                            <option>en</option>
+                            <option>es</option>
+                            <option>fi</option>
+                            <option>fr</option>
+                            <option>he</option>
+                            <option>hr</option>
+                            <option>hu</option>
+                            <option>it</option>
+                            <option>ja</option>
+                            <option>ko</option>
+                            <option>nl</option>
+                            <option>no</option>
+                            <option>pl</option>
+                            <option>pt</option>
+                            <option>ru</option>
+                            <option>sl</option>
+                            <option>sv</option>
+                            <option>tr</option>
+                            <option>zh</option>
+                        </options>
+                        <allowempty>false</allowempty>
+                        <delimiter>,</delimiter>
+                    </constraints>
+                    <control type="list" format="string">
+                        <heading>32116</heading>
+                        <multiselect>true</multiselect>
+                    </control>
+                    <dependencies>
+                        <dependency type="visible" setting="autocomplete_lang">multi</dependency>
                     </dependencies>
                 </setting>
 
