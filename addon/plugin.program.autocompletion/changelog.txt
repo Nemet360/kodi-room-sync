@@ -1,3 +1,11 @@
+v3.1.0 (2026-10-03)
+- Removed the voice-dictation subsystem (BLE mic button, btmon capture,
+  Gemini/Whisper STT) entirely - it crashed and had no reliable trigger
+  anyway. Text autocomplete only now, Hebrew+English via the existing
+  autocomplete_lang / autocomplete_lang_multi settings.
+- Addon renamed from "AutoCompletion with Voice for Keyboard" to
+  "AutoCompletion for Keyboard" to match.
+
 v3.0.1-beta.4 (2026-10-03)
 - Fix: the on-screen mic button overlay (lib/mic_button.py) was dead code
   - service.py never instantiated or polled it, so voice input had no
