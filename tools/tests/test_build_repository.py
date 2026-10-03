@@ -216,3 +216,81 @@ class TestZipHashes(unittest.TestCase):
             archive = self._build(tmp)
             page = (archive.parent / "index.html").read_text(encoding="utf-8")
             self.assertIn(archive.name + ".sha256", page)
+
+
+class TestRepositoryZipAtSiteRoot(unittest.TestCase):
+    """peno64's own repo puts its zip at the top of the site
+    (https://peno64.github.io/repository.peno64/repository.peno64-1.5.zip,
+    measured) and this project's didn't - the zip only lived two folders
+    deep, under repository/repository.roomwatchsync/. A person who expects
+    the top-level convention and finds only an empty-looking root reads that
+    as the repository not being there at all.
+    """
+
+    REPO_MANIFEST = """<?xml version="1.0" encoding="UTF-8"?>
+<addon id="repository.example" name="Example Repository" version="2.0.0" provider-name="Test">
+  <extension point="xbmc.addon.repository" name="Example Repository">
+    <dir>
+      <info compressed="false">https://example.invalid/addons.xml</info>
+      <datadir zip="true">https://example.invalid/</datadir>
+    </dir>
+  </extension>
+  <extension point="xbmc.addon.metadata"><platform>all</platform></extension>
+</addon>
+"""
+
+    def _build(self, tmp):
+        root = Path(tmp)
+        plain = root / "addon" / "plugin.video.example"
+        plain.mkdir(parents=True)
+        (plain / "addon.xml").write_text(MANIFEST, encoding="utf-8")
+        (plain / "default.py").write_text("pass", encoding="utf-8")
+
+        repo = root / "addon" / "repository.example"
+        repo.mkdir(parents=True)
+        (repo / "addon.xml").write_text(self.REPO_MANIFEST, encoding="utf-8")
+
+        output = root / "repository"
+        build_repository(root, output)
+        return root
+
+    def test_the_repository_zip_is_copied_to_the_site_root(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            site_root = self._build(tmp)
+            root_zip = site_root / "repository.example-2.0.0.zip"
+            self.assertTrue(root_zip.is_file())
+            nested = site_root / "repository" / "repository.example" / "repository.example-2.0.0.zip"
+            self.assertEqual(root_zip.read_bytes(), nested.read_bytes())
+
+    def test_the_root_copy_carries_its_hash_files_too(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            site_root = self._build(tmp)
+            for suffix in (".sha256", ".md5"):
+                self.assertTrue(
+                    (site_root / ("repository.example-2.0.0.zip" + suffix)).is_file())
+
+    def test_the_nested_copy_is_untouched_so_datadir_urls_still_work(self):
+        """Kodi's auto-update path reads this nested copy, never the root
+        one - the root copy must never replace it."""
+        with tempfile.TemporaryDirectory() as tmp:
+            site_root = self._build(tmp)
+            self.assertTrue((site_root / "repository" / "repository.example"
+                            / "repository.example-2.0.0.zip").is_file())
+
+    def test_a_plain_video_addon_is_never_copied_to_the_root(self):
+        """Only the repository add-on itself gets the convenience copy - a
+        video add-on at the site root would just be clutter nobody asked for."""
+        with tempfile.TemporaryDirectory() as tmp:
+            site_root = self._build(tmp)
+            self.assertFalse((site_root / "plugin.video.example-1.2.3.zip").is_file())
+
+    def test_a_project_with_no_repository_addon_builds_without_error(self):
+        """Not every caller of build_repository necessarily has one."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            plain = root / "addon" / "plugin.video.example"
+            plain.mkdir(parents=True)
+            (plain / "addon.xml").write_text(MANIFEST, encoding="utf-8")
+            (plain / "default.py").write_text("pass", encoding="utf-8")
+            build_repository(root, root / "repository")  # must not raise
+            self.assertEqual(list(root.glob("*.zip")), [])

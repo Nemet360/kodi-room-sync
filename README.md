@@ -14,7 +14,7 @@
 ## התקנה
 
 1. בכל טלוויזיה, התקינו את ה-zip של המאגר:
-   [`repository.roomwatchsync-1.1.0.zip`](https://nemet360.github.io/kodi-room-sync/repository/repository.roomwatchsync/repository.roomwatchsync-1.1.0.zip)
+   [`repository.roomwatchsync-1.1.0.zip`](https://nemet360.github.io/kodi-room-sync/repository.roomwatchsync-1.1.0.zip)
    (**Settings → Add-ons → Install from zip file**; בפעם הראשונה Kodi יבקש
    לאשר התקנה ממקור לא מזוהה).
 2. **Install from repository → Room Watch Sync Repository → Video add-ons →
@@ -37,7 +37,8 @@
 שהוא יוצא. העבודה שלהם לפי התנאים שלהם, אינה נבדקת או מאושרת כאן, והפרויקט
 הזה אינו נושא באחריות לה.
 
-להתקנת המאגר שלהם בדרך המקורית: <https://peno64.github.io/repository.peno64/>
+הזיפ שלהם ישירות, באותו אופן כמו שלנו: <https://peno64.github.io/repository.peno64/repository.peno64-1.5.zip>
+(מתארח ב-github.io שלהם, לא כאן). להתקנת המאגר שלהם בדרך המקורית: <https://peno64.github.io/repository.peno64/>
 
 שני דברים הושמטו במכוון מההכרזה שלהם אצלנו, ושניהם ברמת ה-`<dir>` ולא ברמת
 המאגר — בדיוק הסיבה שזה `<dir>` שני ולא עריכה של שלנו: אין `<checksum>`, כי

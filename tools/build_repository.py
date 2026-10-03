@@ -174,6 +174,42 @@ def _write_directory_indexes(root: Path) -> list[Path]:
     return written
 
 
+def _is_repository_addon(manifest: ElementTree.Element) -> bool:
+    return manifest.find("./extension[@point='xbmc.addon.repository']") is not None
+
+
+def _publish_repository_zip_at_site_root(site_root: Path, output: Path,
+                                         repo_addon_id: str, archive_name: str) -> list[Path]:
+    """Copy the repository add-on's own zip (+ hashes) one level up, to the
+    site root next to index.html.
+
+    Kodi only ever needs the nested copy under `repository/<id>/` - the
+    repository add-on's own `<datadir>` points there, and every update after
+    the first install goes through `addons.xml`, never through this file.
+    But the FIRST install is a person adding this site as an HTTP source and
+    clicking "Install from zip file", and every repo this project was
+    compared against (peno64's own: a zip sitting right at
+    https://peno64.github.io/repository.peno64/repository.peno64-1.5.zip)
+    puts that one zip at the top, not two folders deep. A person who expects
+    the top-level convention and finds only an empty-looking root reads it as
+    the repository not being there at all.
+
+    Additive only: the nested copy is untouched, so nothing that already
+    points at it (addons.xml, the repository add-on's own manifest, anyone
+    who already installed from the nested path) changes behaviour.
+    """
+    source_dir = output / repo_addon_id
+    written = []
+    for name in (archive_name, archive_name + ".sha256", archive_name + ".md5"):
+        source = source_dir / name
+        if not source.is_file():
+            continue
+        target = site_root / name
+        target.write_bytes(source.read_bytes())
+        written.append(target)
+    return written
+
+
 def build_repository(root: Path, output: Path) -> list[Path]:
     addon_root = root / "addon"
     addon_dirs = sorted(
@@ -188,6 +224,7 @@ def build_repository(root: Path, output: Path) -> list[Path]:
     temporary = Path(tempfile.mkdtemp(prefix=f".{output.name}-", dir=output.parent))
     manifests: list[ElementTree.Element] = []
     artifacts: list[Path] = []
+    repository_addon = None  # (addon_id, archive_name), at most one expected
     try:
         for addon_dir in addon_dirs:
             addon_id, version, manifest = _addon_details(addon_dir)
@@ -200,6 +237,8 @@ def build_repository(root: Path, output: Path) -> list[Path]:
             artifacts.append(Path(addon_id) / archive.name)
             for hash_file in _write_zip_hashes(archive):
                 artifacts.append(Path(addon_id) / hash_file.name)
+            if _is_repository_addon(manifest):
+                repository_addon = (addon_id, archive.name)
 
         index = _render_index(manifests)
         (temporary / "addons.xml").write_bytes(index)
@@ -212,10 +251,19 @@ def build_repository(root: Path, output: Path) -> list[Path]:
         temporary.replace(output)
         for page in _write_directory_indexes(output):
             artifacts.append(page.relative_to(output))
+        if repository_addon is not None:
+            addon_id, archive_name = repository_addon
+            for published in _publish_repository_zip_at_site_root(
+                    root, output, addon_id, archive_name):
+                artifacts.append(published)
     except BaseException:
         shutil.rmtree(temporary, ignore_errors=True)
         raise
-    return [output / item for item in artifacts]
+    # `artifacts` mixes paths relative to `output` with the (already absolute)
+    # site-root copies appended above; an absolute right-hand side makes `/`
+    # return that operand unchanged, so this resolves both correctly - made
+    # explicit here rather than relied on as an implicit pathlib quirk.
+    return [item if item.is_absolute() else output / item for item in artifacts]
 
 
 def main() -> int:
