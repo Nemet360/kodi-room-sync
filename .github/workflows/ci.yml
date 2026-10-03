@@ -28,9 +28,12 @@ jobs:
       - name: Test the add-on
         run: python -m unittest discover -s addon/plugin.video.roomwatchsync/tests -v
 
+      - name: Test the AutoCompletion add-on
+        run: python -m unittest discover -s addon/plugin.program.autocompletion/tests -v
+
       - name: Validate Kodi manifests and assets
         timeout-minutes: 10
-        run: kodi-addon-checker --branch matrix --skip-dependency-checks --reporter console addon/plugin.video.roomwatchsync addon/repository.roomwatchsync
+        run: kodi-addon-checker --branch matrix --skip-dependency-checks --reporter console addon/plugin.video.roomwatchsync addon/repository.roomwatchsync addon/plugin.program.autocompletion
 
       - name: Test the repository builder and the site generator
         run: python -m unittest discover -s tools/tests -v
